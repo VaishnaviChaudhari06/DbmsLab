@@ -1,0 +1,25 @@
+
+CREATE DATABASE SpatialDB;
+USE SpatialDB;
+
+CREATE TABLE Locations (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    location POINT
+);
+
+INSERT INTO Locations
+VALUES (1, 'Pune',
+        ST_GeomFromText('POINT(73.8567 18.5204)', 4326));
+
+INSERT INTO Locations
+VALUES (2, 'Mumbai',
+        ST_GeomFromText('POINT(72.8777 19.0760)', 4326));
+
+SELECT name, ST_AsText(location)
+FROM Locations;
+
+SELECT name,
+       ST_X(location) AS longitude,
+       ST_Y(location) AS latitude
+FROM Locations;
