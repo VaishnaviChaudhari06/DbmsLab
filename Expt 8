@@ -1,0 +1,57 @@
+
+use ProductDB
+
+// Insert products
+db.products.insertMany([
+  {name: "Laptop", price: 50000, category: "Electronics", tags: ["computer", "office"]},
+  {name: "Apple", price: 30, category: "Food", tags: ["fruit", "healthy"]},
+  {name: "Mobile", price: 20000, category: "Electronics", tags: ["phone"]},
+  {name: "Adapter", price: 150, category: "Electronics", tags: ["charger"]},
+  {name: "Banana", price: 10, category: "Food", tags: ["fruit"]}
+])
+
+// Display all products
+db.products.find()
+
+// Find one product
+db.products.findOne({name: "Laptop"})
+
+// Find products with price greater than 100
+db.products.find({price: {$gt: 100}})
+
+// Find products with price less than 50
+db.products.find({price: {$lt: 50}})
+
+// Use OR condition
+db.products.find({
+  $or: [{category: "Electronics"}, {price: {$lt: 50}}]
+})
+
+// Use IN operator
+db.products.find({category: {$in: ["Food", "Electronics"]}})
+
+// Use NOT operator
+db.products.find({price: {$not: {$gt: 100}}})
+
+// Search using array
+db.products.find({tags: "fruit"})
+
+// Search names starting with A using regex
+db.products.find({name: {$regex: "^A"}})
+
+// Update product price
+db.products.updateOne(
+  {name: "Laptop"},
+  {$set: {price: 55000}}
+)
+
+// Delete one product
+db.products.deleteOne({name: "Adapter"})
+
+// Aggregation: total price by category
+db.products.aggregate([
+  {$group: {_id: "$category", total: {$sum: "$price"}}}
+])
+
+// Display final records
+db.products.find()
